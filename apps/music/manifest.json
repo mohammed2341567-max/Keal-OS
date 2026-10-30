@@ -1,0 +1,11 @@
+{
+  "id": "music",
+  "name": "Music",
+  "version": "1.0",
+  "description": "MP3 player for your own files in ~/keal_music. Plays on the Redmi (headphones).",
+  "icon": "♫",
+  "targets": ["master"],
+  "permissions": ["music"],
+  "width": 620,
+  "height": 470
+}

@@ -1,0 +1,3 @@
+KEAL OS V6 - dual-edition browser-based workspace.
+Home Edition: Python/Termux local relay. Web Edition: static-hosted browser workspace with optional Supabase Auth, RLS-protected user data, and friends chat.
+The app does not control Android system input or bypass device-management policies.

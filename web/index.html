@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07111e">
+  <!--KEAL_META-->
+  <title>KEAL OS — Master Desktop</title>
+  <link rel="stylesheet" href="/style.css?v=__KEAL_V__">
+</head>
+<body class="master-body">
+  <main id="masterDesktop" class="master-desktop">
+    <div class="wallpaper-orb orb-a"></div><div class="wallpaper-orb orb-b"></div>
+    <div class="wallpaper-grid"></div>
+
+    <header class="master-topbar">
+      <div class="brand-lockup">
+        <div class="brand-mark"><span>K</span><i></i></div>
+        <div><div class="brand-name">KEAL <span>OS</span></div><div class="brand-subtitle">DUAL WORKSPACE / MASTER NODE</div></div>
+      </div>
+      <div class="topbar-center"><span class="pulse-dot"></span> LOCAL NETWORK <span class="top-divider">/</span> INPUT ROUTER</div>
+      <div class="topbar-right">
+        <div class="focus-bar" role="group" aria-label="Input focus target"><span class="focus-bar-label">INPUT</span><button id="mFocusLocal" type="button" class="fb is-active">REDMI</button><button id="mFocusSamsung" type="button" class="fb">SAMSUNG</button></div>
+        <div class="state-chips"><span id="chipServer" class="chip chip-off">SERVER …</span><span id="chipClient" class="chip chip-off">SAMSUNG OFF</span><span id="chipController" class="chip chip-off">CONTROLLER OFF</span></div>
+        <button id="diagButton" type="button" class="fb diag-btn" title="Open diagnostics">DIAG</button>
+        <div id="clientStatus" class="status-chip status-offline"><span class="status-dot"></span><span id="clientStatusText">SAMSUNG OFFLINE</span></div>
+        <div class="top-clock"><span id="clockTime">--:--</span><small id="clockDate">--- ---</small></div>
+      </div>
+    </header>
+
+    <section class="desktop-welcome">
+      <div class="eyebrow"><span class="eyebrow-line"></span> PERSONAL COMPUTING ENVIRONMENT</div>
+      <h1>Your workspace.<br><span>Two devices. One flow.</span></h1>
+      <p>Launch Samsung Workspace in a window. The remote pointer and keyboard relay operate <b>inside Keal's virtual environment</b>.</p>
+      <div class="welcome-meta"><span><i class="meta-icon">◈</i> MASTER <b>REDMI PAD SE</b></span><span class="meta-sep"></span><span><i class="meta-icon">⌁</i> RELAY <b id="relayState">STANDBY</b></span></div>
+    </section>
+
+    <section class="desktop-icons" aria-label="Desktop applications">
+      <button class="desktop-icon" data-app="workspace" aria-label="Samsung Workspace, double click to open">
+        <span class="app-icon app-icon-blue"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="5" y="7" width="38" height="28" rx="4"/><path d="M18 41h12M24 35v6M10 13h28"/><path d="m17 22 5 4 9-9"/></svg></span><span class="desktop-icon-label">Samsung Workspace</span><span class="desktop-icon-hint">REMOTE SESSION</span>
+      </button>
+      <button class="desktop-icon" data-app="monitor" aria-label="System Monitor, double click to open">
+        <span class="app-icon app-icon-green"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M7 37V11M7 37h35"/><path d="m11 30 8-9 7 4 12-14"/><circle cx="38" cy="11" r="3"/></svg></span><span class="desktop-icon-label">System Monitor</span><span class="desktop-icon-hint">LINK STATUS</span>
+      </button>
+      <button class="desktop-icon" data-app="files" aria-label="File Explorer, double click to open">
+        <span class="app-icon app-icon-amber"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M5 14a4 4 0 0 1 4-4h11l4 5h15a4 4 0 0 1 4 4v17a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4Z"/><path d="M5 20h38"/></svg></span><span class="desktop-icon-label">File Explorer</span><span class="desktop-icon-hint">LOCAL DEMO</span>
+      </button>
+      <button class="desktop-icon" data-app="diagnostics" aria-label="Diagnostics, double click to open">
+        <span class="app-icon app-icon-green"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="16"/><circle cx="24" cy="24" r="5"/><path d="M24 4v6M24 38v6M4 24h6M38 24h6"/></svg></span><span class="desktop-icon-label">Diagnostics</span><span class="desktop-icon-hint">RELAY STATUS</span>
+      </button>
+      <button class="desktop-icon" data-app="notes" aria-label="Quick Notes, double click to open">
+        <span class="app-icon app-icon-purple"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M12 6h19l7 7v29H12Z"/><path d="M31 6v8h7M18 23h14M18 30h14M18 37h8"/></svg></span><span class="desktop-icon-label">Quick Notes</span><span class="desktop-icon-hint">LOCAL STORAGE</span>
+      </button>
+      <button class="desktop-icon" data-app="store" aria-label="App Store, double click to open">
+        <span class="app-icon app-icon-blue"><b class="ext-glyph">⊞</b></span><span class="desktop-icon-label">App Store</span><span class="desktop-icon-hint">INSTALL APPS</span>
+      </button>
+      <button class="desktop-icon" data-app="settings" aria-label="Settings, double click to open">
+        <span class="app-icon app-icon-slate"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="7"/><path d="M20 5h8l1.6 5.1 4.1 1.7 4.8-2.1 4 7-3.9 3.5v4.9l3.9 3.5-4 7-4.8-2.1-4.1 1.7L28 41h-8l-1.6-5.1-4.1-1.7-4.8 2.1-4-7 3.9-3.5v-4.9L5.5 17.4l4-7 4.8 2.1 4.1-1.7Z"/></svg></span><span class="desktop-icon-label">Settings</span><span class="desktop-icon-hint">PREFERENCES</span>
+      </button>
+      <button class="desktop-icon" data-app="account" aria-label="KEAL Account, double click to open">
+        <span class="app-icon app-icon-purple"><b class="ext-glyph">◎</b></span><span class="desktop-icon-label">KEAL Account</span><span class="desktop-icon-hint">YOUR IDENTITY</span>
+      </button>
+      <button class="desktop-icon" data-app="chat" aria-label="Friends Chat, double click to open">
+        <span class="app-icon app-icon-blue"><b class="ext-glyph">✉</b></span><span class="desktop-icon-label">Friends Chat</span><span class="desktop-icon-hint">COMMUNITY</span>
+      </button>
+    </section>
+
+    <aside class="connection-card">
+      <div class="connection-card-head"><span class="tiny-caps">DEVICE PAIRING</span><span class="connection-glyph">⌁</span></div>
+      <div class="device-row"><div class="device-avatar redmi-avatar">R</div><div class="device-info"><b>Redmi Pad SE</b><small>Master / input source</small></div><span class="device-live"><i></i> THIS DEVICE</span></div>
+      <div class="connection-line"><span></span><b id="connectionLineText">WAITING FOR CLIENT</b><span></span></div>
+      <div class="device-row"><div class="device-avatar samsung-avatar">S</div><div class="device-info"><b>Galaxy Tab A9+</b><small>Browser / virtual workspace</small></div><span id="deviceClientBadge" class="device-state">OFFLINE</span></div>
+      <div class="card-footnote"><span class="shield-mini">◇</span> LAN relay only · no Android system control</div>
+    </aside>
+
+    <div class="desktop-footer-note"><span class="footer-mini-mark">K</span><span>KEAL OS HOME</span><span class="footer-bullet">•</span><span>BUILD 06.0</span><span class="footer-bullet">•</span><span>LOCAL WORKSPACE</span></div>
+
+    <div id="windowLayer" class="window-layer" aria-live="polite"></div>
+
+    <nav class="dock" aria-label="Quick launch">
+      <button class="dock-launcher" id="dockLauncher" aria-label="Open application launcher"><span class="launcher-mark"><i></i><i></i><i></i><i></i></span></button>
+      <span class="dock-separator"></span>
+      <button class="dock-app" data-app="workspace" title="Samsung Workspace"><span class="dock-icon dock-blue">▣</span></button>
+      <button class="dock-app" data-app="monitor" title="System Monitor"><span class="dock-icon dock-green">⌁</span></button>
+      <button class="dock-app" data-app="diagnostics" title="Diagnostics"><span class="dock-icon dock-green">◎</span></button>
+      <button class="dock-app" data-app="notes" title="Quick Notes"><span class="dock-icon dock-purple">▤</span></button>
+      <span class="dock-separator"></span>
+      <div class="dock-session"><span class="pulse-dot"></span><span id="dockSessionText">LOCAL SESSION READY</span></div>
+      <button class="dock-power" id="aboutButton" title="About Keal">K<span>i</span></button>
+    </nav>
+  </main>
+
+  <div id="toast" class="toast" role="status"></div>
+  <script src="/config.js?v=__KEAL_V__"></script>
+  <script src="/cloud.js?v=__KEAL_V__"></script>
+  <script src="/identity.js?v=__KEAL_V__"></script>
+  <script src="/relay.js?v=__KEAL_V__"></script>
+  <script src="/shared.js?v=__KEAL_V__"></script>
+  <script src="/master.js?v=__KEAL_V__"></script>
+  <script src="/version-check.js?v=__KEAL_V__"></script>
+</body>
+</html>

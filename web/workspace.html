@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#050d17">
+  <!--KEAL_META-->
+  <title>KEAL Virtual Workspace V6</title>
+  <link rel="stylesheet" href="/style.css?v=__KEAL_V__">
+</head>
+<body class="workspace-body">
+  <main id="workspaceRoot" class="workspace-root">
+    <div id="screenFrame" class="screen-frame">
+      <section id="virtualScreen" class="virtual-screen" aria-label="Keal virtual desktop" tabindex="-1">
+        <div class="virtual-glow"></div>
+        <header class="workspace-topbar">
+          <div class="workspace-brand"><span class="workspace-logo">K</span> KEAL <span>WORKSPACE</span></div>
+          <div class="workspace-location">VIRTUAL ENVIRONMENT / V6</div>
+          <div id="focusManager" class="focus-manager" role="group" aria-label="Input focus target">
+            <span class="focus-manager-label">INPUT FOCUS</span>
+            <button id="focusLocalButton" class="focus-option" type="button" data-focus-target="local" aria-pressed="true">REDMI</button>
+            <button id="focusSamsungButton" class="focus-option" type="button" data-focus-target="samsung" aria-pressed="false">SAMSUNG</button>
+            <span id="focusStateText" class="focus-state-text">LOCAL</span>
+          </div>
+          <div class="workspace-top-spacer"></div>
+          <div class="workspace-connection"><i class="pulse-dot"></i><span id="workspaceLinkText">CLIENT READY</span></div>
+          <div id="workspaceTime" class="workspace-time">--:--</div>
+        </header>
+
+        <section class="workspace-icon-grid" aria-label="Virtual apps">
+          <button class="workspace-app-icon" data-open="terminal" aria-label="Terminal, double click to open"><span class="wi-box">&gt;_</span><span>Terminal</span></button>
+          <button class="workspace-app-icon" data-open="editor" aria-label="Code Lab, double click to open"><span class="wi-box">{ }</span><span>Code Lab</span></button>
+          <button class="workspace-app-icon" data-open="files" aria-label="Files, double click to open"><span class="wi-box">▱</span><span>Files</span></button>
+          <button class="workspace-app-icon" data-open="store" aria-label="App Store, double click to open"><span class="wi-box">⊞</span><span>Store</span></button>
+          <button class="workspace-app-icon" data-open="notes" aria-label="Notes, double click to open"><span class="wi-box">▤</span><span>Notes</span></button>
+          <button class="workspace-app-icon" data-open="account" aria-label="KEAL Account, double click to open"><span class="wi-box">◎</span><span>Account</span></button>
+          <button class="workspace-app-icon" data-open="chat" aria-label="Friends Chat, double click to open"><span class="wi-box">✉</span><span>Chat</span></button>
+        </section>
+
+        <section class="workspace-center-card">
+          <div class="center-kicker">WELCOME TO KEAL / SESSION 01</div>
+          <h1>A focused space for your ideas.</h1>
+          <p>This is a browser-based virtual desktop. Open apps with a double-click. When paired with the Redmi controller, pointer and keyboard events are relayed inside this workspace only.</p>
+          <div class="center-tags"><span>LOCAL FIRST</span><span>INPUT RELAY</span><span>SAFE DEMO SHELL</span></div>
+        </section>
+
+        <aside class="workspace-right-info">
+          <div class="right-info-title">SESSION OVERVIEW</div>
+          <div class="info-strip"><small>ENVIRONMENT</small><b>Keal Virtual Desktop</b></div>
+          <div class="info-strip"><small>INPUT SOURCE</small><b id="inputSourceValue">Waiting for Redmi</b></div>
+          <div class="info-strip"><small>TERMINAL MODE</small><b>Browser Runtime</b></div>
+        </aside>
+
+        <footer class="workspace-bottom-status"><span>●</span><span id="bottomStatusText">WORKSPACE READY</span><span>·</span><span>NO SYSTEM COMMANDS EXECUTED</span></footer>
+        <nav class="workspace-dock" aria-label="Workspace quick launch">
+          <button data-open="terminal" title="Terminal">&gt;_</button>
+          <button data-open="editor" title="Code Lab">{ }</button>
+          <button data-open="files" title="Files">▱</button>
+          <button data-open="notes" title="Notes">▤</button>
+          <span class="dock-vline"></span>
+          <button data-home="true" class="dock-dim" title="Desktop">⌂</button>
+        </nav>
+        <div id="workspaceWindowLayer" class="workspace-window-layer"></div>
+        <div id="remoteCursor" class="remote-cursor" aria-hidden="true">
+          <svg viewBox="0 0 24 32" fill="none"><path d="M2 2 2.5 24 8 19.4 12.3 29 16.4 27.1 12.1 17.7 20.1 17.6Z" fill="#f5fdff" stroke="#07101a" stroke-width="1.5" stroke-linejoin="round"/><path d="M4.2 6.1 4.5 19.7 8.7 16.2 13 25.4 14.1 24.9 9.8 15.6 15.1 15.6Z" fill="#70e4f5"/></svg>
+        </div>
+      </section>
+    </div>
+    <pre id="debugPanel" class="debug-panel" hidden></pre>
+    <div id="clientModeBadge" class="client-mode-badge">SAMSUNG CLIENT / CONNECTED</div>
+    <div id="workspaceControlHint" class="workspace-control-hint">VIRTUAL SCREEN 1280 × 720</div>
+  </main>
+  <script src="/config.js?v=__KEAL_V__"></script>
+  <script src="/cloud.js?v=__KEAL_V__"></script>
+  <script src="/identity.js?v=__KEAL_V__"></script>
+  <script src="/relay.js?v=__KEAL_V__"></script>
+  <script src="/shared.js?v=__KEAL_V__"></script>
+  <script src="/runtime.js?v=__KEAL_V__"></script>
+  <script src="/workspace.js?v=__KEAL_V__"></script>
+  <script src="/version-check.js?v=__KEAL_V__"></script>
+</body>
+</html>

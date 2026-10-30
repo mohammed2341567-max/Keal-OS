@@ -1,0 +1,2 @@
+# Standard library only. No pip packages are needed to run the server on Termux.
+# Optional, only for tests/browser_check.py on a desktop: playwright (then: playwright install chromium)

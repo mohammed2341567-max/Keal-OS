@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Local output and personal data
+public/
+keal_files/
+keal_music/
+*.log
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/

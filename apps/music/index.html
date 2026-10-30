@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Music</title>
+<style>
+:root{color-scheme:dark;--bg:#07111d;--panel:#0b1c2c;--line:rgba(100,183,219,.2);--cy:#6fe3f7;--tx:#d3e8f4;--mut:#7592a8}
+*{box-sizing:border-box}body{margin:0;height:100vh;display:flex;flex-direction:column;background:radial-gradient(ellipse at 80% 0,rgba(50,150,200,.18),transparent 50%),var(--bg);color:var(--tx);font:13px system-ui,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer}
+.now{padding:14px 16px 8px;display:grid;gap:8px;border-bottom:1px solid var(--line)}
+.title{font-size:15px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sub{font-size:10px;letter-spacing:.1em;color:var(--mut)}
+.bar{display:flex;align-items:center;gap:8px}.bar span{font:10px ui-monospace,monospace;color:var(--mut);min-width:36px;text-align:center}
+input[type=range]{flex:1;accent-color:var(--cy);height:28px}
+.ctl{display:flex;align-items:center;justify-content:center;gap:8px}
+.ctl button{min-width:46px;min-height:44px;border:1px solid var(--line);border-radius:10px;background:rgba(40,130,170,.14);font-size:17px}
+.ctl button.play{min-width:64px;background:rgba(60,190,220,.25);border-color:rgba(111,227,247,.5)}
+.ctl button.on{color:var(--cy);border-color:var(--cy)}
+.vol{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--mut)}.vol input{width:90px}
+.tools{display:flex;gap:8px;padding:8px 16px}.tools input[type=search]{flex:1;min-height:36px;padding:0 10px;border:1px solid var(--line);border-radius:8px;background:#06101a;color:var(--tx)}
+.tools button,.upload{min-height:36px;padding:0 12px;border:1px solid var(--line);border-radius:8px;background:rgba(40,130,170,.14);font-size:11px;letter-spacing:.06em;display:flex;align-items:center;cursor:pointer}
+.list{flex:1;overflow:auto;padding:0 12px 12px;display:grid;gap:4px;align-content:start}
+.track{display:flex;gap:10px;align-items:center;min-height:42px;padding:0 12px;border:1px solid transparent;border-radius:8px;background:rgba(12,35,51,.5);text-align:left}
+.track b{flex:1;font-weight:550;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.track small{color:var(--mut)}
+.track.cur{border-color:var(--cy);background:rgba(50,170,205,.16)}
+.empty{padding:26px 20px;color:var(--mut);line-height:1.7;text-align:center}.empty code{color:var(--cy)}
+.err{padding:0 16px;color:#f3c77e;font-size:11px;min-height:16px}
+</style></head><body>
+<div class="now"><div class="title" id="title">No track selected</div><div class="sub" id="sub">KEAL MUSIC · REDMI</div>
+<div class="bar"><span id="cur">0:00</span><input type="range" id="seek" min="0" max="1000" value="0" aria-label="Seek"><span id="dur">0:00</span></div>
+<div class="ctl"><button id="shuf" title="Shuffle">⇄</button><button id="prev" title="Previous">⏮</button><button id="play" class="play" title="Play / pause">▶</button><button id="next" title="Next">⏭</button><button id="rep" title="Repeat all">↻</button>
+<div class="vol">VOL<input type="range" id="vol" min="0" max="100" value="80" aria-label="Volume"></div></div></div>
+<div class="err" id="err"></div>
+<div class="tools"><input type="search" id="q" placeholder="Search tracks…" aria-label="Search"><button id="refresh">RESCAN</button><label class="upload">ADD FILES<input id="files" type="file" accept="audio/*" multiple hidden></label></div>
+<div class="list" id="list"></div>
+<audio id="audio" preload="metadata"></audio>
+<script src="../../keal-sdk.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const audio = $('audio');
+let tracks = [], shown = [], index = -1, shuffle = false, repeat = true, root = '', localUrls = [];
+const fmt = s => (isFinite(s) ? Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0') : '0:00');
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+async function load() {
+  try {
+    const res = await Keal.call('music.list');
+    tracks = res.tracks || []; root = res.root || 'KEAL MUSIC'; render();
+    if (!tracks.length) $('err').textContent = 'No server music library here. Use ADD FILES to play audio selected from this browser.';
+    const last = await Keal.call('storage.get', { key: 'last' });
+    const vol = await Keal.call('storage.get', { key: 'vol' });
+    if (vol !== null) { $('vol').value = vol; audio.volume = vol / 100; } else audio.volume = .8;
+    if (last) { const i = tracks.findIndex(t => t.path === last); if (i >= 0) select(i, false); }
+  } catch (e) { $('err').textContent = 'Use ADD FILES to play audio selected from this browser.'; }
+}
+function render() {
+  const q = $('q').value.trim().toLowerCase();
+  shown = tracks.map((t, i) => ({ t, i })).filter(x => !q || x.t.name.toLowerCase().includes(q));
+  if (!tracks.length) { $('list').innerHTML = '<div class="empty">No music found in <code>' + esc(root) + '</code>.<br>Copy your MP3 files there. In Termux:<br><code>termux-setup-storage</code><br><code>cp ~/storage/music/*.mp3 ~/keal_music/</code><br>then press RESCAN.</div>'; return; }
+  $('list').innerHTML = shown.map(x => '<button class="track' + (x.i === index ? ' cur' : '') + '" data-i="' + x.i + '"><span>' + (x.i === index ? '♪' : '▸') + '</span><b>' + esc(x.t.name) + '</b><small>' + (x.t.size / 1048576).toFixed(1) + ' MB</small></button>').join('');
+}
+function select(i, autoplay = true) {
+  if (i < 0 || i >= tracks.length) return;
+  index = i; const t = tracks[i];
+  audio.src = t.url; $('title').textContent = t.name; $('sub').textContent = t.path.includes('/') ? t.path.split('/').slice(0, -1).join(' / ').toUpperCase() : 'KEAL MUSIC · REDMI';
+  $('err').textContent = ''; render();
+  Keal.call('storage.set', { key: 'last', value: t.path }).catch(() => {});
+  if (autoplay) audio.play().catch(e => { $('err').textContent = 'Press play to start (' + e.name + ')'; });
+}
+function step(dir) {
+  if (!tracks.length) return;
+  if (shuffle) return select(Math.floor(Math.random() * tracks.length));
+  let n = index + dir;
+  if (n >= tracks.length) { if (!repeat) return; n = 0; }
+  if (n < 0) n = tracks.length - 1;
+  select(n);
+}
+$('list').addEventListener('click', e => { const b = e.target.closest('.track'); if (b) select(+b.dataset.i); });
+$('play').onclick = () => { if (index < 0 && tracks.length) return select(0); audio.paused ? audio.play() : audio.pause(); };
+$('next').onclick = () => step(1); $('prev').onclick = () => { if (audio.currentTime > 4) audio.currentTime = 0; else step(-1); };
+$('shuf').onclick = () => { shuffle = !shuffle; $('shuf').classList.toggle('on', shuffle); };
+$('rep').onclick = () => { repeat = !repeat; $('rep').classList.toggle('on', repeat); }; $('rep').classList.add('on');
+$('q').oninput = render; $('refresh').onclick = load;
+$('files').addEventListener('change', e => { localUrls.forEach(URL.revokeObjectURL); localUrls=[]; const picked=[...(e.target.files||[])].filter(f=>f.type.startsWith('audio/')); tracks=picked.map((f,i)=>{const url=URL.createObjectURL(f);localUrls.push(url);return {name:f.name,path:f.name,size:f.size,url};});root='Browser-selected audio';index=-1;render();$('err').textContent=tracks.length?tracks.length+' audio file(s) ready. Files are not uploaded.':'No supported audio files selected.'; });
+$('vol').oninput = e => { audio.volume = e.target.value / 100; Keal.call('storage.set', { key: 'vol', value: e.target.value }).catch(() => {}); };
+let seeking = false;
+$('seek').oninput = () => { seeking = true; $('cur').textContent = fmt(audio.duration * $('seek').value / 1000); };
+$('seek').onchange = () => { if (isFinite(audio.duration)) audio.currentTime = audio.duration * $('seek').value / 1000; seeking = false; };
+audio.onplay = () => $('play').textContent = '⏸'; audio.onpause = () => $('play').textContent = '▶';
+audio.ontimeupdate = () => { if (!seeking) { $('cur').textContent = fmt(audio.currentTime); $('seek').value = audio.duration ? audio.currentTime / audio.duration * 1000 : 0; } };
+audio.onloadedmetadata = () => $('dur').textContent = fmt(audio.duration);
+audio.onended = () => step(1);
+audio.onerror = () => { $('err').textContent = 'Cannot play this file (unsupported or broken). Skipping…'; setTimeout(() => step(1), 1200); };
+document.addEventListener('keydown', e => { if (e.code === 'Space' && e.target.tagName !== 'INPUT') { e.preventDefault(); $('play').click(); } });
+load();
+</script></body></html>
