@@ -5,7 +5,9 @@
   const token = meta('token') || new URLSearchParams(location.search).get('t') || '';
   const isWeb = meta('mode') === 'web';
   const root = meta('root') || './';
-  const pageUrl = path => isWeb ? new URL(String(path).replace(/^\//,''), new URL(root, location.href)).href : path;
+  // Home edition: server-rooted ('/media/x'); Web edition: relative to the site base. A bare 'media/x' must NOT stay relative in Home
+  // (inside a sandboxed app it would resolve under /apps/<id>/ and 404 - the 6.1.0 Music regression).
+  const pageUrl = path => isWeb ? new URL(String(path).replace(/^\//,''), new URL(root, location.href)).href : (String(path).startsWith('/') ? String(path) : '/' + path);
   const instance = Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
   // Resolves to {ok, status, data, ms}. status 0 = network failure/timeout. Never rejects.
   async function api(path, { method = 'GET', body, timeout = 8000 } = {}) {

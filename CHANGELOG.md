@@ -1,5 +1,10 @@
 # KEAL OS — Changelog
 
+## 6.2.0 (in development, branch `dev/6.2`)
+
+- Fixed: Home Edition Music app could not play files because `KealRelay.pageUrl('media/…')` stayed relative inside the sandboxed app iframe (regression in 6.1.0). Added `tests/test_relay_js.py`.
+- Added project documents: `AGENT_RULES.md`, `PROJECT_SPEC.md`, `ROADMAP.md`, `PROGRESS.md`, `docs/AUDIT_6.2.md`.
+
 ## 6.1.0 — Initial unified Home + Web release
 
 - Preserved the Termux/Home Edition and the existing application/window system, App Store, Files, Notes, Code Lab, Settings, Music, and local dual-workspace relay.
